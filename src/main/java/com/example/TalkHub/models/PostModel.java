@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 
 @Data
@@ -22,10 +23,13 @@ public class PostModel {
     public PostModel(){
     }
 
-    public PostModel(LocalDateTime dateNow, Integer ownerId, String body){
-        this.dateNow = dateNow;
+    public PostModel (Integer ownerId, String body){
         this.ownerId = ownerId;
         this.body = body;
     }
 
+    @PrePersist
+    protected void onCreate(){
+        this.dateNow = LocalDateTime.now();
+    }
 }

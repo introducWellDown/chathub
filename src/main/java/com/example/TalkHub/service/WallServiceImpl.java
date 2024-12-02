@@ -1,29 +1,29 @@
 package com.example.TalkHub.service;
 
 import com.example.TalkHub.models.PostModel;
-import com.example.TalkHub.reposytory.PostReposytory;
+import com.example.TalkHub.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class PostsServiceImpl implements PostsService {
+public class WallServiceImpl implements WallService {
 
-    private final PostReposytory postReposytory;
+    private final PostRepository postRepository;
 
     @Autowired
-    public PostsServiceImpl (PostReposytory postReposytory) {
-        this.postReposytory = postReposytory;
+    public WallServiceImpl(PostRepository postRepository) {
+        this.postRepository = postRepository;
     }
 
     @Override
     public List<PostModel> getAllPosts() {
-        return postReposytory.findAll();
+        return postRepository.findAll();
     }
 
     @Override
     public void addPost(PostModel postModel) {
-        postReposytory.save(postModel);
+        postRepository.save(postModel);
     }
 }
