@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Data
@@ -13,7 +14,7 @@ public class UserModel {
 
     public enum Gender {
         man,
-        women
+        woman
     }
 
     @Id
@@ -29,6 +30,7 @@ public class UserModel {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
+    @Column(unique = true)
     private String name;
     private Integer age;
     private String password;
@@ -37,13 +39,16 @@ public class UserModel {
     public UserModel() {
     }
 
-    public UserModel(String name, Gender gender, Integer age,String password, String email) {
+    public UserModel(String name, Gender gender, Integer age, String password, String email) {
         this.name = name;
         this.gender = gender;
         this.age = age;
         this.password = password;
         this.email = email;
     }
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<PostModel> posts;
 
     @PrePersist
     void onCreate() {

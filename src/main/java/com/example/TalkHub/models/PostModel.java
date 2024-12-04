@@ -1,15 +1,15 @@
 package com.example.TalkHub.models;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
 
 @Data
 @Table(name = "posts")
 @Entity
+@AllArgsConstructor
 public class PostModel {
 
     @Id
@@ -17,19 +17,22 @@ public class PostModel {
     private Long id;
 
     private LocalDateTime dateNow;
-    private Integer ownerId;
     private String body;
 
-    public PostModel(){
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "users_id", nullable = false)
+    private UserModel user;
+
+    public PostModel() {
     }
 
-    public PostModel (Integer ownerId, String body){
-        this.ownerId = ownerId;
+    public PostModel(UserModel user, String body) {
+        this.user = user; // Используем поле user вместо ownerId
         this.body = body;
     }
 
     @PrePersist
-    protected void onCreate(){
+    protected void onCreate() {
         this.dateNow = LocalDateTime.now();
     }
 }
